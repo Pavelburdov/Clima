@@ -5,8 +5,9 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    
     @IBOutlet weak var searchTextField: UITextField!
+
+    var weatherManager = WeatherManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +16,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
 
 
     @IBAction func searchPressed(_ sender: UIButton) {
-        searchTextField.endEditing(true)
+        searchTextField.endEditing(true) //прячет клавиатуру
         print(searchTextField.text!)
     }
     //Спрашивает делегата, следует ли обрабатывать нажатие кнопки Return(GO) для текстового поля.
@@ -36,6 +37,10 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
 
     // удаляет текст после ввода
     func textFieldDidEndEditing(_ textField: UITextField) {
+
+        if let city = searchTextField.text {
+            weatherManager.fetchWeather(cityName: city)
+        }
         searchTextField.text = ""
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
 
 
     @IBOutlet weak var conditionImageView: UIImageView!
@@ -17,12 +17,16 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         weatherManager.delegate = self
         searchTextField.delegate = self
     }
+}
+//MARK: - UITextFieldDelegate
 
+extension WeatherViewController: UITextFieldDelegate {
 
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true) //прячет клавиатуру
         print(searchTextField.text!)
     }
+
     //Спрашивает делегата, следует ли обрабатывать нажатие кнопки Return(GO) для текстового поля.
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)//прячет клавиатуру
@@ -47,6 +51,10 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         }
         searchTextField.text = ""
     }
+}
+
+//MARK: - WeatherManagerDelegate
+    extension WeatherViewController: WeatherManagerDelegate {
     // получаем доступ к методам в WeatherManager
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
 // для обновление данных в фоновом или основном потоке

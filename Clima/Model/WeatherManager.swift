@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 // создаем протокол у отправителя
 protocol WeatherManagerDelegate {
@@ -28,6 +29,14 @@ struct WeatherManager {
         
         let urlString = "\(weatherURL)&q=\(cityName)"
         //упростим в вызове функции выражение теперь оно будет читаться с внешним параметром with - "со строкой UКД"
+        performRequest(with: urlString)
+    }
+
+    // добавим метод с тем же названием fetchWeather, CLLocationDegrees  значение широты и долготы в градусах Double
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
+        //упростим в вызове функции выражение теперь оно будет читаться с внешним параметром with - "со строкой URL"
         performRequest(with: urlString)
     }
 // добавим в метод для получения данных по URL внешний параметр with - для упрощения чтения
@@ -65,8 +74,10 @@ struct WeatherManager {
             let id = decodeData.weather[0].id
             let temp = decodeData.main.temp
             let name = decodeData.name
+            
 // создаем объект погоды из модели
             let weather = WeatherModel(conditionID: id, cityName: name, temperature: temp)
+
             // возврат объекта
             return weather
 
